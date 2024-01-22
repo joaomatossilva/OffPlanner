@@ -1,0 +1,41 @@
+@page "{locale}"
+@model OffPlanner.Web.Pages.Suggestions
+
+@{
+    ViewData["Title"] = "Suggestions";
+}
+
+<h1>List of Days Off Suggestions</h1>
+<p>@Model.CountryName (@Model.Locale)</p>
+
+@if (Model.VacationSuggestions != null)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Workings Days Booked</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Ratio</th>
+        </tr>
+        </thead>
+        @foreach (var group in Model.VacationSuggestions)
+        {
+            <tr>
+                <td colspan="4" class="bg-light">With @group.TotalDaysOff Days Off</td>
+            </tr>
+
+            @foreach (var suggestion in group.Suggestions)
+            {
+                <tr>
+                    <td>@suggestion.VacationDaysSpent</td>
+                    <td>@($"{suggestion.StartDate:D}")</td>
+                    <td>@($"{suggestion.EndDate:D}")</td>
+                    <td>@($"{suggestion.Ratio:P0}")</td>
+                </tr>
+            }
+        }
+    </table>
+}
+
+<p>Select another <a href="@Url.Page("Countries")">country</a></p>

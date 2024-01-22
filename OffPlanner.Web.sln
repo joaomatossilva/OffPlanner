@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffPlanner.Web", "OffPlanner.Web\OffPlanner.Web.csproj", "{1C00619E-A00D-43CF-97AC-10EB2BE5F78B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C00619E-A00D-43CF-97AC-10EB2BE5F78B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C00619E-A00D-43CF-97AC-10EB2BE5F78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C00619E-A00D-43CF-97AC-10EB2BE5F78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C00619E-A00D-43CF-97AC-10EB2BE5F78B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
