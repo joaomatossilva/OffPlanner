@@ -17,11 +17,20 @@ public class IndexModel : PageModel
     {
         var userLanguages = Request.GetTypedHeaders()
             .AcceptLanguage
-            .OrderByDescending(x => x.Quality)
+            .OrderByDescending(x => x.Quality ?? 1)
             .Select(x => x.Value.ToString());
 
         foreach (var userLanguage in userLanguages)
         {
+            if (userLanguage.Length == 2)
+            {
+                var foundMatch = AvailableLocales.List.Value.FirstOrDefault(x => x.Substring(0, 2) == userLanguage);
+                if (foundMatch != null)
+                {
+                    return Redirect(Url.Page("Suggestions", new { locale = foundMatch }));
+                }
+            }
+
             if (AvailableLocales.List.Value.Contains(userLanguage))
             {
                 return Redirect(Url.Page("Suggestions", new { locale = userLanguage }));
