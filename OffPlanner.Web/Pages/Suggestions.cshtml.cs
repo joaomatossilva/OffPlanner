@@ -11,13 +11,20 @@ public class Suggestions : PageModel
     public IEnumerable<VacationsSuggestionsViewModel> VacationSuggestions { get; set; }
     public string CountryName { get; set; }
     public string Locale { get; set; }
+    public HashSet<string> Regions { get; set; }
+    public string Region { get; set; }
 
-    public void OnGet(string locale)
+    public void OnGet(string locale, string region)
     {
         Locale = locale;
         var regionInfo = new RegionInfo(locale);
         CountryName = regionInfo.DisplayName;
-        Calculate(locale, String.Empty);
+
+        Regions = AvailableLocales.Regions.TryGetValue(locale, out var regions)
+            ? regions
+            : new HashSet<string>();
+
+        Calculate(locale, region);
     }
 
 
