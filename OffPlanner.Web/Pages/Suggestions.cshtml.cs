@@ -13,8 +13,9 @@ public class Suggestions : PageModel
     public string Locale { get; set; }
     public HashSet<string> Regions { get; set; }
     public string Region { get; set; }
+    public DateTime?[] Days { get; set; } = new DateTime?[5];
 
-    public void OnGet(string locale, string region)
+    public void OnGet(string locale, string region, DateTime?[]? day)
     {
         Locale = locale;
         var regionInfo = new RegionInfo(locale);
@@ -24,13 +25,33 @@ public class Suggestions : PageModel
             ? regions
             : new HashSet<string>();
 
-        Calculate(locale, region);
+        if (day != null)
+        {
+            for (int i = 0; i < Days.Length; i++)
+            {
+                if (day.Length > i)
+                {
+                    Days[i] = day[i];
+                }
+            }
+        }
+
+        var extraDays = day?
+            .Where(x => x != null)
+            .Select(x => x.Value)
+            .ToHashSet() ?? new HashSet<DateTime>();
+        Calculate(locale, region, extraDays);
     }
 
 
-    public void Calculate(string locale, string region)
+    public void Calculate(string locale, string region, HashSet<DateTime> extraDays)
     {
-        var cultureInfo = new WorkingDayCultureInfo(locale, region);
+        IWorkingDayCultureInfo cultureInfo = new WorkingDayCultureInfo(locale, region);
+        if (extraDays.Count > 0)
+        {
+            cultureInfo = new CustomWorkingDayCultureInfoDecorator(cultureInfo, extraDays);
+        }
+
         var year = 2024;
 
         VacationSuggestions = GetSuggestions(cultureInfo, year, 10)
