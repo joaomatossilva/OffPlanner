@@ -42,11 +42,28 @@ public class Suggestions : PageModel
                         StartDate = p.StartDate,
                         EndDate = p.EndDate,
                         VacationDaysSpent = p.WorkingDays,
-                        Ratio = p.Score * (15/100f * t.Key)
+                        Ratio = p.Score * (15/100f * t.Key),
+                        Days = ExplainDays(cultureInfo, p.StartDate, p.EndDate)
                     })
                     .OrderByDescending(p => p.Ratio)
             })
             .OrderByDescending(t => t.TotalDaysOff);
+    }
+
+    public IEnumerable<Day> ExplainDays(IWorkingDayCultureInfo workingDayCultureInfo, DateTime startDate, DateTime endDate)
+    {
+        var date = startDate;
+        do
+        {
+            var day = new Day
+            {
+                DateTime = date,
+                IsWeekend = !workingDayCultureInfo.IsWorkingDay(date.DayOfWeek),
+                IsHoliday = workingDayCultureInfo.IsHoliday(date)
+            };
+            yield return day;
+            date = date.AddDays(1);
+        } while (date <= endDate);
     }
 
     public class VacationsSuggestionsViewModel {
@@ -59,6 +76,15 @@ public class Suggestions : PageModel
         public DateTime EndDate { get; set; }
         public int VacationDaysSpent { get; set; }
         public float Ratio { get; set; }
+        public IEnumerable<Day> Days { get; set; }
+    }
+
+    public class Day
+    {
+        public DateTime DateTime { get; set; }
+        public string Name { get; set; }
+        public bool IsWeekend { get; set; }
+        public bool IsHoliday { get; set; }
     }
 
     public IEnumerable<VacationPeriod> GetSuggestions(IWorkingDayCultureInfo workingdayCultureInfo, int year, int maxDaysForward) {

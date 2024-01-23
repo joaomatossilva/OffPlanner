@@ -20,3 +20,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.days-explain td {
+  width: 14px;
+  height: 10px;
+  border: darkgray 1px solid;
+  margin: 2px;
+  font-size: 9px;
+}
+
+.days-explain td.day-holiday {
+  background-color: #20c997;
+}
+
+.days-explain td.day-weekend {
+  background-color: #ececec;
+}
