@@ -10,10 +10,15 @@ public class Countries : PageModel
 
     public void OnGet()
     {
-        Locales = AvailableLocales.List.Value.Select(x => new Locale
+        Locales = AvailableLocales.List.Value.Select(x =>
             {
-                Identifier = x,
-                Name = new RegionInfo(x).DisplayName
+                var regionInfo = new RegionInfo(x);
+                return new Locale
+                {
+                    Identifier = x,
+                    Name = regionInfo.DisplayName,
+                    Country = regionInfo.TwoLetterISORegionName
+                };
             })
             .OrderBy(x => x.Name);
     }
@@ -22,5 +27,6 @@ public class Countries : PageModel
     {
         public string Identifier { get; set; }
         public string Name { get; set; }
+        public string Country { get; set; }
     }
 }

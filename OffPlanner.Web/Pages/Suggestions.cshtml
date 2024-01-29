@@ -6,7 +6,7 @@
 }
 
 <h1>Days Off Suggestions</h1>
-<p>@Model.CountryName (@Model.Locale) <a href="@Url.Page("Countries")">change</a></p>
+<p> <span class="fi fi-@(Model.Country.ToLower())"></span> @Model.CountryName (@Model.Locale) <a href="@Url.Page("Countries")">change</a></p>
 
 <form method="get" class="form">
     @if (Model.Regions.Count > 0)
