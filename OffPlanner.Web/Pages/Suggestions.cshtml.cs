@@ -54,7 +54,7 @@ public class Suggestions : PageModel
             cultureInfo = new CustomWorkingDayCultureInfoDecorator(cultureInfo, extraDays);
         }
 
-        var year = 2024;
+        var year = DateTime.UtcNow.Year;
 
         VacationSuggestions = GetSuggestions(cultureInfo, year, 10)
             .GroupBy(s => s.TotalDays)
